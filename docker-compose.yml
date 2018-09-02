@@ -1,0 +1,15 @@
+version: '2.1'
+
+services:
+  app_blue:
+    image: bluemeta/eb-blue
+    environment:
+      - DJANGO_COLOR=blue
+    ports:
+      - "7001:7001"
+  app_red:
+    image: bluemeta/eb-red
+    environment:
+      - DJANGO_COLOR=red
+    ports:
+      - "7000:7000"

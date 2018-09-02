@@ -1,0 +1,54 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "volumes": [
+        {
+            "name": "eb-blue",
+            "host": {
+                "sourcePath": "/var/app/current/app_blue"
+            }
+        },
+        {
+            "name": "eb-red",
+            "host": {
+                "sourcePath": "/var/app/current/app_red"
+            }
+        }
+    ],
+    "containerDefinitions": [
+        {
+            "name": "eb-blue",
+            "image": "bluemeta:eb-blue",
+            "essential": true,
+            "memory": 128
+        },
+        {
+            "name": "eb-red",
+            "image": "bluemeta:eb-red",
+            "essential": true,
+            "memory": 128
+        },
+        {
+            "name": "nginx-proxy",
+            "image": "nginx",
+            "essential": true,
+            "memory": 128,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "nginx-proxy-conf",
+                    "containerPath": "/etc/nginx/conf.d",
+                    "readOnly": true
+                },
+                {
+                    "sourceVolume": "awseb-logs-nginx-proxy",
+                    "containerPath": "/var/log/nginx"
+                }
+            ]
+        }
+    ]
+}
