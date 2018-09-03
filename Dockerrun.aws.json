@@ -12,18 +12,24 @@
             "host": {
                 "sourcePath": "/var/app/current/app_red"
             }
+        },
+        {
+            "name": "nginx-proxy-conf",
+            "host": {
+              "sourcePath": "/var/app/current/proxy/conf.d"
+            }
         }
     ],
     "containerDefinitions": [
         {
             "name": "eb-blue",
-            "image": "bluemeta:eb-blue",
+            "image": "bluemeta/eb-blue",
             "essential": true,
             "memory": 128
         },
         {
             "name": "eb-red",
-            "image": "bluemeta:eb-red",
+            "image": "bluemeta/eb-red",
             "essential": true,
             "memory": 128
         },
@@ -37,6 +43,10 @@
                     "hostPort": 80,
                     "containerPort": 80
                 }
+            ],
+            "links": [
+                "eb-red",
+                "eb-blue"
             ],
             "mountPoints": [
                 {
